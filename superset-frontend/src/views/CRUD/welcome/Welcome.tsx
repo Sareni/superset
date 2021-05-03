@@ -207,7 +207,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
           </div>
         ) : null}
       </WelcomeNav>
-      <Collapse defaultActiveKey={['1', '2', '3', '4']} ghost bigger>
+      <Collapse defaultActiveKey={['1', '2', /*'3', */'4']} ghost bigger>
         <Collapse.Panel header={t('Recents')} key="1">
           {activityData && (activityData.Viewed || activityData.Examples) ? (
             <ActivityTable
