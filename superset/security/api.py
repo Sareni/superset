@@ -15,17 +15,19 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
+#import json
 
-from flask import Response
+from flask import Response, request
 from flask_appbuilder import expose
 from flask_appbuilder.api import BaseApi, safe
 from flask_appbuilder.security.decorators import permission_name, protect
+from flask_appbuilder.security.sqla.models import PermissionView
 from flask_wtf.csrf import generate_csrf
 
+from superset import security_manager as sm
 from superset.extensions import event_logger
 
 logger = logging.getLogger(__name__)
-
 
 class SecurityRestApi(BaseApi):
     resource_name = "security"

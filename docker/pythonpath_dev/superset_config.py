@@ -27,6 +27,18 @@ from datetime import timedelta
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
 
+from custom_sso_security_manager import CustomSsoSecurityManager
+CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
+
+from flask_appbuilder.security.manager import (
+    AUTH_DB,
+    AUTH_LDAP,
+    AUTH_OAUTH,
+    AUTH_OID,
+    AUTH_REMOTE_USER
+)
+
+
 logger = logging.getLogger()
 
 
@@ -101,6 +113,32 @@ WEBDRIVER_BASEURL = "http://superset:8088/"
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
+
+AUTH_TYPE = AUTH_OAUTH
+OAUTH_PROVIDERS = [
+    {   'name':'auth0',
+        'token_key':'access_token', # Name of the token in the response of access_token_url
+        'icon':'fa-address-card',   # Icon for the provider
+        'remote_app': {
+            'client_id':'5pMxtEdbs0hUHufMBm2QyLcJCBfT86z3',  # Client Id (Identify Superset application)
+            'client_secret':'jUi8_Fr2xvHalPV1giEXBiuTJX6GuUqpDLaQxlSel66wNyXxihABFQ3w27FcIHkk', # Secret for this Client Id (Identify Superset application)
+            'client_kwargs':{
+                'scope': 'openid profile email',        # Scope for the Authorization
+            },
+            'access_token_method':'POST',    # HTTP Method to call access_token_url
+            'base_url':'https://dev-x4orscvo.eu.auth0.com',
+            'access_token_url':'https://dev-x4orscvo.eu.auth0.com/oauth/token',
+            'authorize_url':'https://dev-x4orscvo.eu.auth0.com/authorize'
+        },
+
+    }
+]
+
+# Will allow user self registration, allowing to create Flask users from Authorized User
+AUTH_USER_REGISTRATION = False
+
+# The default user self registration role
+AUTH_USER_REGISTRATION_ROLE = "Public"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on

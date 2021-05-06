@@ -45,7 +45,7 @@ const menu = { ...bootstrap.common.menu_data };
 const common = { ...bootstrap.common };
 initFeatureFlags(bootstrap.common.feature_flags);
 
-// <Menu data={menu} isFrontendRoute={isFrontendRoute} />
+
 const App = () => (
   <ReduxProvider store={store}>
     <ThemeProvider theme={theme}>
@@ -56,6 +56,7 @@ const App = () => (
               ReactRouterRoute={Route}
               stringifyOptions={{ encode: false }}
             >
+              <Menu data={menu} isFrontendRoute={isFrontendRoute} />
               <Switch>
                 {routes.map(
                   ({ path, Component, props = {}, Fallback = Loading }) => (
