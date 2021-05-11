@@ -131,7 +131,20 @@ OAUTH_PROVIDERS = [
             'authorize_url':'https://dev-x4orscvo.eu.auth0.com/authorize'
         },
 
-    }
+        }, {   'name':'oauth2_own',
+                'token_key':'access_token', # Name of the token in the response of access_token_url
+                'icon':'fa-google',   # Icon for the provider
+                'remote_app': {
+                    'client_id':'5pMxtEdbs0hUHufMBm2QyLcJCBfT86z3',  # Client Id (Identify Superset application)
+                    'client_secret':'jUi8_Fr2xvHalPV1giEXBiuTJX6GuUqpDLaQxlSel66wNyXxihABFQ3w27FcIHkk', # Secret for this Client Id (Identify Superset application)
+                    'client_kwargs':{
+                        'scope': 'openid profile email',        # Scope for the Authorization
+                                                                                                        },
+                    'access_token_method':'POST',    # HTTP Method to call access_token_url
+                    'base_url':'http://test.zenpa.at',
+                    'access_token_url':'http://test.zenpa.at/api/oauth2/token',                                                              'authorize_url':'http://test.zenpa.at/api/oauth2/authorize'
+                },
+        }
 ]
 
 # Will allow user self registration, allowing to create Flask users from Authorized User

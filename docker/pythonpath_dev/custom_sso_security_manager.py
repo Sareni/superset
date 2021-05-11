@@ -30,3 +30,17 @@ class CustomSsoSecurityManager(SupersetSecurityManager):
                 #'first_name': 'first_name', #me['given_name'],
                 #'last_name': 'last_name', #me['family_name'],
             }
+
+        if provider == 'oauth2_own':
+
+            logging.debug('oauth2_own')
+
+            resp = requests.get('http://test.zenpa.at/api/userinfo', headers={ 'Authorization': 'Bearer ' + self.oauth_tokengetter()[0]}).content
+            userinfo =  json.loads(resp.decode('utf-8'))
+            return {
+                    'username' : userinfo['email'], #
+                            #'name' : userinfo['name'], #me['name']
+                            #'email' : userinfo['email'], #me['email']
+                            #'first_name': 'first_name', #me['given_name'],
+                            #'last_name': 'last_name', #me['family_name'],
+                            }
