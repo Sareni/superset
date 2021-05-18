@@ -89,10 +89,11 @@ const WelcomeContainer = styled.div`
   }
 `;
 
+//${({ theme }) => theme.gridUnit * -4 - 1}px
 const WelcomeNav = styled.div`
   height: 50px;
   background-color: white;
-  margin-top: ${({ theme }) => theme.gridUnit * -4 - 1}px;
+  margin-top: 0; 
   .navbar-brand {
     margin-left: ${({ theme }) => theme.gridUnit * 2}px;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
