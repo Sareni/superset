@@ -42,8 +42,8 @@ const layoutStyles = css`
     background-color: white !important;
   }
   Button {
-    background: #20a7c9;
-    border-color: #20a7c9;
+    background: #607D8B;
+    border-color: #607D8B;
     border-radius: 4px;
   }
 `;
