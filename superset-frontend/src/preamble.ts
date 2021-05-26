@@ -59,7 +59,20 @@ setupColors(
 // Setup number formatters
 setupFormatters();
 
-export const theme = merge(
+/* export const theme = merge(
+  supersetTheme,
+  bootstrapData?.common?.theme_overrides ?? {},
+);*/
+const supersetDefaultTheme = merge(
   supersetTheme,
   bootstrapData?.common?.theme_overrides ?? {},
 );
+
+export const theme = merge(supersetDefaultTheme, {
+  colors: {
+    primary: {
+      base: '#607D8B',
+      dark1: '#607D8B'
+    }
+  }
+});
