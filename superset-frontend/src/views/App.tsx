@@ -35,8 +35,6 @@ import setupApp from 'src/setup/setupApp';
 import { routes, /*isFrontendRoute*/ } from 'src/views/routes';
 import { store } from './store';
 
-//import { merge } from 'lodash';
-
 setupApp();
 setupPlugins();
 

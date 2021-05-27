@@ -27,6 +27,7 @@ import {
 } from 'src/utils/localStorageHelpers';
 import withToasts from 'src/messageToasts/enhancers/withToasts';
 import Loading from 'src/components/Loading';
+import SubMenu from 'src/components/Menu/SubMenu';
 import {
   createErrorHandler,
   getRecentAcitivtyObjs,
@@ -53,11 +54,12 @@ export interface ActivityData {
   Examples?: Array<object>;
 }
 
+//    margin-top: -15px;
+// background-color: ${({ theme }) => theme.colors.grayscale.light4};
 const WelcomeContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.light4};
   nav {
-    margin-top: -15px;
-    background-color: ${({ theme }) => theme.colors.grayscale.light4};
+    
     &:after {
       content: '';
       display: block;
@@ -87,6 +89,8 @@ const WelcomeContainer = styled.div`
   .ant-card.ant-card-bordered {
     border: 1px solid ${({ theme }) => theme.colors.grayscale.light2};
   }
+  .custom-nav-no-border nav {
+    &:after {border: none;}
 `;
 
 //${({ theme }) => theme.gridUnit * -4 - 1}px
@@ -197,10 +201,12 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     }));
   }, [chartData, queryData, dashboardData]);
 
+// <span className="navbar-brand"></span>
+
   return (
     <WelcomeContainer>
-      <WelcomeNav>
-        <span className="navbar-brand">Home</span>
+      <WelcomeNav className={'custom-nav-no-border'}>
+        <SubMenu name={'Home'} />
         {isFeatureEnabled(FeatureFlag.THUMBNAILS) ? (
           <div className="switch">
             <Switch checked={checked} onChange={handleToggle} />

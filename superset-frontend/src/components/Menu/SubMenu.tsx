@@ -23,15 +23,39 @@ import cx from 'classnames';
 import { Nav, Navbar } from 'react-bootstrap';
 import Button, { OnClickHandler } from 'src/components/Button';
 
+import MenuObject, {
+  MenuObjectProps,
+  MenuObjectChildProps,
+} from './MenuObject';
+
 const StyledHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
   .navbar {
     margin-bottom: 0;
   }
+
+  .caret {
+    display: none;
+  }
+
   .navbar-header .navbar-brand {
     font-weight: ${({ theme }) => theme.typography.weights.bold};
     margin-right: ${({ theme }) => theme.gridUnit * 3}px;
   }
+
+  .navbar-brand > li {
+    padding-top: 13px;
+    padding-bottom: 13px;
+    list-style: none;
+  }
+
+  .navbar-brand .dropdown-toggle {
+    padding-top: 15.5px;
+    padding-bottom: 15.5px;
+    padding-left: 15px;
+    text-decoration: none;
+  }
+
   .navbar-right {
     display: flex;
     align-items: center;
@@ -121,8 +145,69 @@ export interface SubMenuProps {
   usesRouter?: boolean;
 }
 
+const subMenuChildProps: MenuObjectChildProps[] = [{
+    label: 'Home',
+    name: 'Home',
+    icon: '',
+    index: 102,
+    url: '/superset/welcome',
+    isFrontendRoute: true,
+},{
+  label: 'Charts',
+  name: 'Charts',
+  icon: '',
+  index: 103,
+  url: '/chart/list',
+  isFrontendRoute: true,
+},{
+  label: 'Dashboards',
+  name: 'Dashboards',
+  icon: '',
+  index: 104,
+  url: '/dashboard/list',
+  isFrontendRoute: true,
+}];
+
+const createCustomNav = (name?: string | ReactNode) => {
+  if (name && typeof name === 'string') {
+    const menu: MenuObjectProps[] = [];
+    const prop: MenuObjectProps = {
+      childs: subMenuChildProps.filter(p => p.name !== name),
+      isHeader: false,
+      label: name,
+      name,
+      icon: '',
+      index: 100,
+      url: '',
+      isFrontendRoute: true,
+    };
+  
+    menu.push(prop);
+    
+    return menu.map((item, index) => {
+      const props = {
+        ...item,
+        isFrontendRoute: true,
+        childs: item.childs?.map(c => {
+          if (typeof c === 'string') {
+            return c;
+          }
+
+          return {
+            ...c,
+            isFrontendRoute: true,
+          };
+        }),
+      };
+      return <MenuObject {...props} key={item.label} index={index + 1} />;
+    });
+  }
+  return name;
+}
+
 const SubMenu: React.FunctionComponent<SubMenuProps> = props => {
   let hasHistory = true;
+
   // If no parent <Router> component exists, useHistory throws an error
   try {
     useHistory();
@@ -134,8 +219,13 @@ const SubMenu: React.FunctionComponent<SubMenuProps> = props => {
     <StyledHeader>
       <Navbar inverse fluid role="navigation">
         <Navbar.Header>
-          <Navbar.Brand>{props.name}</Navbar.Brand>
+          <Navbar.Brand>
+            { createCustomNav(props.name) }
+          </Navbar.Brand>
         </Navbar.Header>
+        <Nav>
+        
+        </Nav>
         <Nav>
           {props.tabs &&
             props.tabs.map(tab => {
