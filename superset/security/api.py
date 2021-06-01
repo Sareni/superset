@@ -97,10 +97,19 @@ class SecurityRestApi(BaseApi):
         data = request.json # json.loads(request.json)
         role_name = data['username']
 
+        special_source_dict = {
+          '0': 'demo_data'
+        }
+
         datasourceIds = data['datasourceIds'].split(',')
         pns = []
         for id in datasourceIds:
-          pns.append('datasource access on [Tracking].[' + data['username'] + '](id:' + id + ')')
+          # special source
+          if id[1] == '_':
+            pns.append('datasource access on [Tracking].[' + special_source_dict[id[0]] + '](id:' + id[2:] + ')')
+          # default user source
+          else:
+            pns.append('datasource access on [Tracking].[' + data['username'] + '](id:' + id + ')')
         
         #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
 
