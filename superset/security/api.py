@@ -106,7 +106,6 @@ class SecurityRestApi(BaseApi):
 
 
         role = sm.add_role(role_name)
-        role.permissions = []
         pvms = sm.get_session.query(PermissionView).all()
         #pvms = [p for p in pvms if p.permission and p.view_menu]
 
@@ -114,7 +113,7 @@ class SecurityRestApi(BaseApi):
         for permission_view in pvms:
           for perm_name in pns:
             if self.custom_pvm_check(permission_view, perm_name):
-              role.permission.append(permission_view)
+              role.permissions.append(permission_view)
               break
 
 
