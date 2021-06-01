@@ -96,15 +96,30 @@ class SecurityRestApi(BaseApi):
         """
         data = request.json # json.loads(request.json)
         role_name = data['username']
-        perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
+
+        datasourceIds = data['datasourceIds'].split(',')
+        pns = []
+        for id in datasourceIds:
+          pns.append('datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + id + ')')
+        
+        #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
 
 
         role = sm.add_role(role_name)
         pvms = sm.get_session.query(PermissionView).all()
         #pvms = [p for p in pvms if p.permission and p.view_menu]
-        role.permissions = [
-            permission_view for permission_view in pvms if self.custom_pvm_check(permission_view, perm_name)
-        ]
+
+        role.permissions = []
+        for permission_view in pvms:
+          for perm_name in pns:
+            if self.custom_pvm_check(permission_view, perm_name):
+              role.permission.append(permission_view)
+              break
+
+
+        #role.permissions = [
+        #    permission_view for permission_view in pvms if self.custom_pvm_check(permission_view, perm_name)
+        #]
         sm.get_session.merge(role)
         sm.get_session.commit()
 
