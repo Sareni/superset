@@ -100,7 +100,7 @@ class SecurityRestApi(BaseApi):
         datasourceIds = data['datasourceIds'].split(',')
         pns = []
         for id in datasourceIds:
-          pns.append('datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + id + ')')
+          pns.append('datasource access on [Tracking].[' + data['username'] + '](id:' + id + ')')
         
         #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
 
