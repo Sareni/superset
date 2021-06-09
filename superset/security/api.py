@@ -97,16 +97,24 @@ class SecurityRestApi(BaseApi):
         data = request.json # json.loads(request.json)
         role_name = data['username']
 
-        special_source_dict = {
+        special_global_source_dict = {
           '0': 'demo_data'
         }
+
+        special_private_source_dict = {
+          '0': 'demo'
+        }
+
 
         datasourceIds = data['datasourceIds'].split(',')
         pns = []
         for id in datasourceIds:
-          # special source
+          # special global (all user) source
           if id[1] == '_':
-            pns.append('datasource access on [Tracking].[' + special_source_dict[id[0]] + '](id:' + id[2:] + ')')
+            pns.append('datasource access on [Tracking].[' + special_global_source_dict[id[0]] + '](id:' + id[2:] + ')')
+          # special private (single user) source
+          if id[1] == '-':
+            pns.append('datasource access on [Tracking].[' + data['username'] + '_' + special_private_source_dict[id[0]] + '](id:' + id[2:] + ')')
           # default user source
           else:
             pns.append('datasource access on [Tracking].[' + data['username'] + '](id:' + id + ')')
