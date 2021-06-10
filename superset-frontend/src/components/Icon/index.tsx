@@ -113,6 +113,7 @@ import { ReactComponent as NavDataIcon } from 'images/icons/nav_data.svg';
 import { ReactComponent as NavExploreIcon } from 'images/icons/nav_explore.svg';
 import { ReactComponent as NavHomeIcon } from 'images/icons/nav_home.svg';
 import { ReactComponent as NavLabIcon } from 'images/icons/nav_lab.svg';
+import { ReactComponent as NorthIcon } from 'images/icons/north.svg';
 import { ReactComponent as NoteIcon } from 'images/icons/note.svg';
 import { ReactComponent as OfflineIcon } from 'images/icons/offline.svg';
 import { ReactComponent as PaperclipIcon } from 'images/icons/paperclip.svg';
@@ -242,6 +243,7 @@ export type IconName =
   | 'nav-explore'
   | 'nav-home'
   | 'nav-lab'
+  | 'north'
   | 'note'
   | 'offline'
   | 'paperclip'
@@ -329,6 +331,7 @@ export const iconsRegistry: Record<
   'nav-explore': NavExploreIcon,
   'nav-home': NavHomeIcon,
   'nav-lab': NavLabIcon,
+  'north': NorthIcon,
   'plus-large': PlusLargeIcon,
   'plus-small': PlusSmallIcon,
   'plus-solid': PlusSolidIcon,

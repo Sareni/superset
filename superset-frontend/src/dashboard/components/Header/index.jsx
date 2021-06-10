@@ -520,6 +520,20 @@ class Header extends React.PureComponent {
             />
           )}
 
+          {
+            (
+              <>
+              <a
+                className='action-button'
+                style={{marginLeft: '10px'}}
+                href='/dashboard/list'
+              >
+                <Icon name="north" />
+              </a>
+            </>
+            )
+          }
+
           <HeaderActionsDropdown
             addSuccessToast={this.props.addSuccessToast}
             addDangerToast={this.props.addDangerToast}
