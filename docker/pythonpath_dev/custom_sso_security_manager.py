@@ -20,6 +20,8 @@ class CustomSsoAuthOAuthView(AuthOAuthView):
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
 
+    authoauthview = CustomSsoAuthOAuthView
+
     def oauth_user_info(self, provider, response=None):
         logging.debug("Oauth2 provider: {0}.".format(provider))
 
