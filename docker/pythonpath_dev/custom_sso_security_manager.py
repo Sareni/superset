@@ -16,7 +16,7 @@ class CustomSsoAuthOAuthView(AuthOAuthView):
         ret = super().logout()
         time.sleep(1)
         logging.debug("[XXX] Successfully logged out!")
-        return redirect('test.zenpa.at')
+        return redirect('http://test.zenpa.at')
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
 
