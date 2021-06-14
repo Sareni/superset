@@ -2,6 +2,21 @@ import logging
 import requests
 import json
 from superset.security import SupersetSecurityManager
+from flask_appbuilder.security.views import AuthOAuthView
+from flask_appbuilder.baseviews import expose
+import time
+from flask import redirect
+
+
+class CustomSsoAuthOAuthView(AuthOAuthView):
+
+    @expose("/logout/")
+    def logout(self, provider="ownauth", register=None):
+        logger.debug("[XXX] Logging out...")
+        ret = super().logout()
+        time.sleep(1)
+        logger.debug("[XXX] Successfully logged out!")
+        return redirect('test.zenpa.at')
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
 
