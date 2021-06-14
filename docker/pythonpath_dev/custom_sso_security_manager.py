@@ -12,10 +12,10 @@ class CustomSsoAuthOAuthView(AuthOAuthView):
 
     @expose("/logout/")
     def logout(self, provider="ownauth", register=None):
-        logger.debug("[XXX] Logging out...")
+        logging.debug("[XXX] Logging out...")
         ret = super().logout()
         time.sleep(1)
-        logger.debug("[XXX] Successfully logged out!")
+        logging.debug("[XXX] Successfully logged out!")
         return redirect('test.zenpa.at')
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
