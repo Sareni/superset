@@ -12,7 +12,7 @@ class CustomSsoAuthOAuthView(AuthOAuthView):
     @expose("/logout/")
     def logout(self, provider="ownauth", register=None):
         ret = super().logout()
-        return redirect('http://test.zenpa.at/logout')
+        return redirect('http://test.zenpa.at/api/logout')
 
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
