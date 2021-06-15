@@ -8,19 +8,7 @@ import time
 from flask import redirect
 
 
-class CustomSsoAuthOAuthView(AuthOAuthView):
-
-    @expose("/logout/")
-    def logout(self, provider="ownauth", register=None):
-        logging.debug("[XXX] Logging out...")
-        ret = super().logout()
-        time.sleep(1)
-        logging.debug("[XXX] Successfully logged out!")
-        return redirect('http://test.zenpa.at')
-
 class CustomSsoSecurityManager(SupersetSecurityManager):
-
-    authoauthview = CustomSsoAuthOAuthView
 
     def oauth_user_info(self, provider, response=None):
         logging.debug("Oauth2 provider: {0}.".format(provider))

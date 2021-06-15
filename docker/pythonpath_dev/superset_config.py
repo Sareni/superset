@@ -144,7 +144,8 @@ OAUTH_PROVIDERS = [
             'access_token_method':'POST',    # HTTP Method to call access_token_url
             'base_url':'http://test.zenpa.at',
             'access_token_url':'http://test.zenpa.at/api/oauth2/token',
-            'authorize_url':'http://test.zenpa.at/api/oauth2/authorize'
+            'authorize_url':'http://test.zenpa.at/api/oauth2/authorize',
+            'logout_redirect_uri': 'http://test.zenpa.at/api/logout'
         },
     }
 ]
