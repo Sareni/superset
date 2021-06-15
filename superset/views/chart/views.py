@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import json
+import logging
 
 from flask import g
 from flask_appbuilder import expose, has_access
@@ -35,6 +36,8 @@ from superset.views.base import (
 )
 from superset.views.chart.mixin import SliceMixin
 from superset.views.utils import bootstrap_user_data
+
+from superset import security_manager
 
 
 class SliceModelView(
@@ -63,10 +66,28 @@ class SliceModelView(
     @expose("/add", methods=["GET", "POST"])
     @has_access
     def add(self) -> FlaskResponse:
-        datasources = [
-            {"value": str(d.id) + "__" + d.type, "label": repr(d)}
-            for d in ConnectorRegistry.query_datasources_by_permissions(db.session)
-        ]
+        for role in g.user.roles:
+            
+            #for perm in security_manager.find_role(role).permissions:
+            for perm in role.permissions:
+                if str(perm).startswith('datasource access on ['):
+                    #'datasource access on [DB].[DATASOURCE](id:ID)')
+                    data_search = re.search('datasource access on \[([^\]]+)\]\.\[([^\]]+)\]\(id:([^\)]+)\)', str(perm))
+
+                    if data_search:
+                        title = data_search.group(1)
+                
+
+        #role = 
+        #for perm in sm.find_role(role).permissions:
+        #        sm.add_permission_role(gamma_sqllab_role, perm)
+        allowed_datasources = []
+        datasources = []
+
+        for d in ConnectorRegistry.get_all_datasources(db.session):
+            if d.short_data.get("name") in allowed_datasources:
+                datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+
         payload = {
             "datasources": sorted(datasources, key=lambda d: d["label"]),
             "common": common_bootstrap_payload(),
