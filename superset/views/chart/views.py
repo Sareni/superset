@@ -16,6 +16,7 @@
 # under the License.
 import json
 import logging
+import re
 
 from flask import g
 from flask_appbuilder import expose, has_access
@@ -66,27 +67,29 @@ class SliceModelView(
     @expose("/add", methods=["GET", "POST"])
     @has_access
     def add(self) -> FlaskResponse:
+        allowed_datasources = []
+        datasources = []
+
+        # only if gamma
+        is_gamma = False
+
         for role in g.user.roles:
-            
-            #for perm in security_manager.find_role(role).permissions:
+            if str(role) == 'Gamma':
+                is_gamma = True
             for perm in role.permissions:
                 if str(perm).startswith('datasource access on ['):
                     #'datasource access on [DB].[DATASOURCE](id:ID)')
                     data_search = re.search('datasource access on \[([^\]]+)\]\.\[([^\]]+)\]\(id:([^\)]+)\)', str(perm))
-
                     if data_search:
-                        title = data_search.group(1)
-                
-
-        #role = 
-        #for perm in sm.find_role(role).permissions:
-        #        sm.add_permission_role(gamma_sqllab_role, perm)
-        allowed_datasources = []
-        datasources = []
+                        allowed_datasources.append({"connection": data_search.group(1), "name": data_search.group(2), "id": data_search.group(3)})
 
         for d in ConnectorRegistry.get_all_datasources(db.session):
-            if d.short_data.get("name") in allowed_datasources:
-                datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+            if (is_gamma):
+                for a in allowed_datasources:
+                    if d.short_data.get("name") == a.get("name") and d.short_data.get("connection") == a.get("connection") and str(d.short_data.get("id")) == str(a.get("id")):
+                        datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+            else:
+                 datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
 
         payload = {
             "datasources": sorted(datasources, key=lambda d: d["label"]),

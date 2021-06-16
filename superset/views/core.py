@@ -178,13 +178,33 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     @event_logger.log_this
     @expose("/datasources/")
     def datasources(self) -> FlaskResponse:
+        allowed_datasources = []
+        datasources = []
+
+        # only if gamma
+        is_gamma = False
+
+        for role in g.user.roles:
+            if str(role) == 'Gamma':
+                is_gamma = True
+            for perm in role.permissions:
+                if str(perm).startswith('datasource access on ['):
+                    #'datasource access on [DB].[DATASOURCE](id:ID)')
+                    data_search = re.search('datasource access on \[([^\]]+)\]\.\[([^\]]+)\]\(id:([^\)]+)\)', str(perm))
+                    if data_search:
+                        allowed_datasources.append({"connection": data_search.group(1), "name": data_search.group(2), "id": data_search.group(3)})
+
+        for d in ConnectorRegistry.get_all_datasources(db.session):
+            if datasource.short_data.get("name"):
+                if (is_gamma):
+                    for a in allowed_datasources:
+                        if d.short_data.get("name") == a.get("name") and d.short_data.get("connection") == a.get("connection") and str(d.short_data.get("id")) == str(a.get("id")):
+                            datasources.append(d.short_data)
+                else:
+                    datasources.append(d.short_data)
         return self.json_response(
             sorted(
-                [
-                    datasource.short_data
-                    for datasource in ConnectorRegistry.get_all_datasources(db.session)
-                    if datasource.short_data.get("name")
-                ],
+                datasources,
                 key=lambda datasource: datasource["name"],
             )
         )
