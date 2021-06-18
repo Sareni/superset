@@ -468,7 +468,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   );
 
   const menuData: SubMenuProps = {
-    activeChild: 'Datasets',
+    //activeChild: 'Datasets',
     ...commonMenuData,
   };
 

@@ -167,7 +167,7 @@ function ExploreViewContainer(props) {
   const windowSize = useWindowSize();
 
   const [showingModal, setShowingModal] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const width = `${windowSize.width}px`;
   const navHeight = props.standalone ? 0 : 90;

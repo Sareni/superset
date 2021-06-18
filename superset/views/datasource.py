@@ -17,7 +17,7 @@
 import json
 from collections import Counter
 
-from flask import request
+from flask import request, g
 from flask_appbuilder import expose
 from flask_appbuilder.security.decorators import has_access_api
 from flask_babel import _
@@ -52,6 +52,16 @@ class Datasource(BaseSupersetView):
             datasource_type, datasource_id, db.session
         )
         orm_datasource.database_id = database_id
+
+        
+        is_gamma = False
+        for role in g.user.roles:
+            if str(role) == 'Gamma':
+                is_gamma = True
+        if is_gamma and datasource_dict.get("sql") is not None and len(datasource_dict.get("sql")) > 0:
+            if datasource_dict.get("sql") != orm_datasource.sql:
+                return json_error_response(_("Custom SQL is not allowed for your user."), status=500) # false response type
+            
 
         if "owners" in datasource_dict and orm_datasource.owner_class is not None:
             # Check ownership

@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ import { t } from '@superset-ui/core';
 import React, { ReactNode } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
@@ -146,25 +147,32 @@ export interface SubMenuProps {
 }
 
 const subMenuChildProps: MenuObjectChildProps[] = [{
-    label: 'Home',
+    label: t('Home'),
     name: 'Home',
     icon: '',
     index: 102,
     url: '/superset/welcome',
     isFrontendRoute: true,
 },{
-  label: 'Charts',
+  label: t('Charts'),
   name: 'Charts',
   icon: '',
   index: 103,
   url: '/chart/list',
   isFrontendRoute: true,
 },{
-  label: 'Dashboards',
+  label: t('Dashboards'),
   name: 'Dashboards',
   icon: '',
   index: 104,
   url: '/dashboard/list',
+  isFrontendRoute: true,
+},{
+  label: t('Datasets'),
+  name: 'Datasets',
+  icon: '',
+  index: 105,
+  url: '/tablemodelview/list',
   isFrontendRoute: true,
 }];
 

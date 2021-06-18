@@ -19,8 +19,8 @@
 import { t } from '@superset-ui/core';
 
 export const commonMenuData = {
-  name: t('Data'),
-  tabs: [
+  name: t('Datasets'),
+  /* tabs: [
     {
       name: 'Databases',
       label: t('Databases'),
@@ -45,5 +45,5 @@ export const commonMenuData = {
       url: '/superset/sqllab/history/',
       usesRouter: true,
     },
-  ],
+  ], */
 };
