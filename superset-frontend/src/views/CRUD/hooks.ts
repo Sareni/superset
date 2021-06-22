@@ -83,9 +83,39 @@ export function useListViewResource<D extends object = any>(
       })}`,
     }).then(
       ({ json: infoJson = {} }) => {
+        console.log('[YYY]:', infoJson.permissions);
+        console.log(`/api/v1/${resource}/_info?q=${rison.encode({
+          keys: ['permissions'],
+        })}`);
         updateState({
           permissions: infoJson.permissions,
         });
+
+        if (resource === 'dataset') {
+          SupersetClient.get({
+            endpoint: `/api/v1/database/_info?q=${rison.encode({
+              keys: ['permissions'],
+            })}`,
+          }).then(
+            ({ json: infoJson = {} }) => {
+              console.log('[YYY]:', infoJson.permissions);
+              console.log(`/api/v1/${resource}/_info?q=${rison.encode({
+                keys: ['permissions'],
+              })}`);
+              updateState({
+                permissions: infoJson.permissions,
+              });
+            },
+            createErrorHandler(errMsg =>
+              handleErrorMsg(
+                t(
+                  'An error occurred while fetching database info: %s',
+                  errMsg,
+                ),
+              ),
+            ),
+          );
+        }
       },
       createErrorHandler(errMsg =>
         handleErrorMsg(
@@ -97,11 +127,20 @@ export function useListViewResource<D extends object = any>(
         ),
       ),
     );
+    
   }, []);
+
+  let test = 1;
 
   function hasPerm(perm: string) {
     if (!state.permissions.length) {
       return false;
+    }
+
+
+    if (test) {
+      console.log('[XXX]', String(state.permissions));
+      test = 0;
     }
 
     return Boolean(state.permissions.find(p => p === perm));
