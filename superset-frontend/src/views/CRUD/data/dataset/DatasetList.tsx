@@ -157,6 +157,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   const canDelete = hasPerm('can_write');
   const canCreate = hasPerm('can_write');
   const canExport = hasPerm('can_read');
+  const canSeeAllMenuButtons = hasPerm('can_write_db');
 
   const initialSort = [{ id: 'changed_on_delta_humanized', desc: true }];
 
@@ -468,8 +469,8 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   );
 
   const menuData: SubMenuProps = {
-    //activeChild: 'Datasets',
-    ...commonMenuData,
+    activeChild: (canSeeAllMenuButtons ? 'Datasets' : undefined),
+    ...(canSeeAllMenuButtons ? (commonMenuData) : { name: t('Datasets') }),
   };
 
   const buttonArr: Array<ButtonProps> = [];
