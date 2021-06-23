@@ -107,8 +107,10 @@ class SecurityRestApi(BaseApi):
 
 
         datasourceIds = data['datasourceIds'].split(',')
+
+        datasourceNames = data['datasourceNames'].split(',')
         pns = []
-        for id in datasourceIds:
+        for idx, id in enumerate(datasourceIds):
           # special global (all user) source
           if id[1] == '_':
             pns.append('datasource access on [Tracking].[' + special_global_source_dict[id[0]] + '](id:' + id[2:] + ')')
@@ -117,7 +119,7 @@ class SecurityRestApi(BaseApi):
             pns.append('datasource access on [Tracking].[' + data['username'] + '_' + special_private_source_dict[id[0]] + '](id:' + id[2:] + ')')
           # default user source
           else:
-            pns.append('datasource access on [Tracking].[' + data['username'] + '](id:' + id + ')')
+            pns.append('datasource access on [Tracking].[' + datasourceNames[idx] + '](id:' + id + ')')
         
         #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
 
@@ -141,6 +143,6 @@ class SecurityRestApi(BaseApi):
         sm.get_session.commit()
 
         role_names = ['Gamma', role_name]
-        user = sm.add_user(data['username'], data['username'], "user", data['username'] + "@test.at", list(map(lambda rn:sm.find_role(rn), role_names)), password=data['password'])
+        user = sm.add_user(data['username'], 'DS2G', "User", data['username'] + "@test.at", list(map(lambda rn:sm.find_role(rn), role_names)), password=data['password'])
         sm.get_session.commit()
         return self.response(200, id=user.id)
