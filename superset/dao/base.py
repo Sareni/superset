@@ -96,6 +96,15 @@ class BaseDAO:
         Generic for creating models
         :raises: DAOCreateFailedError
         """
+
+        logging.debug('XXXXXXXXXXXXXXXXX')
+        logging.debug(str(cls.model_cls().__dict__))
+
+
+        logging.debug('YYYYYYYYYYYYYYYY')
+        logging.debug(str(properties))
+
+
         if cls.model_cls is None:
             raise DAOConfigError()
         model = cls.model_cls()  # pylint: disable=not-callable
