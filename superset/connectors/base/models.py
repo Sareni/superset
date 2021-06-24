@@ -110,6 +110,7 @@ class BaseDatasource(
     schema_perm = Column(String(1000))
 
     sql: Optional[str] = None
+    label: Optional[str] = None
     owners: List[User]
     update_from_object_fields: List[str]
 
@@ -169,10 +170,10 @@ class BaseDatasource(
         """String representing the schema of the Datasource (if it applies)"""
         return None
     
-    @property
-    def label(self) -> Optional[str]:
-        """String representing the frontend label of the Datasource"""
-        return None
+    #@property
+    #def label(self) -> Optional[str]:
+    #    """String representing the frontend label of the Datasource"""
+    #    return None
 
     @property
     def filterable_column_names(self) -> List[str]:
