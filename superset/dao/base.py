@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Any, Dict, List, Optional, Type
+import logging
 
 from flask_appbuilder.models.filters import BaseFilter
 from flask_appbuilder.models.sqla import Model
@@ -117,8 +118,15 @@ class BaseDAO:
         Generic update a model
         :raises: DAOCreateFailedError
         """
+
+        logging.debug('XXXXXXXXXXXXXXXXX')
+        logging.debug(str(model))
+
+
         for key, value in properties.items():
+            logging.debug(str(key) + ': ' + str(value))
             setattr(model, key, value)
+        logging.debug('fin ------------')
         try:
             db.session.merge(model)
             if commit:
