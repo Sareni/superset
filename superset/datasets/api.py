@@ -389,7 +389,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     def get(self, **kwargs: Any) -> Response:
       logging.debug('XXXXXXXXX')
-      logging.debug(super()get())
+      logging.debug(super().get())
       return Response(message="Hello")
 
     @expose("/export/", methods=["GET"])
