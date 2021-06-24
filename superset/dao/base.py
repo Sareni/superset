@@ -120,7 +120,7 @@ class BaseDAO:
         """
 
         logging.debug('XXXXXXXXXXXXXXXXX')
-        logging.debug(str(model))
+        logging.debug(str(model.__dict__))
 
 
         for key, value in properties.items():
