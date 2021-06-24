@@ -71,6 +71,7 @@ class DatasetPostSchema(Schema):
     schema = fields.String(validate=Length(0, 250))
     table_name = fields.String(required=True, allow_none=False, validate=Length(1, 250))
     owners = fields.List(fields.Integer())
+    label = fields.String(allow_none=True, validate=Length(1,250))
 
 
 class DatasetPutSchema(Schema):
@@ -91,6 +92,7 @@ class DatasetPutSchema(Schema):
     columns = fields.List(fields.Nested(DatasetColumnsPutSchema))
     metrics = fields.List(fields.Nested(DatasetMetricsPutSchema))
     extra = fields.String(allow_none=True)
+    label = fields.String(allow_none=True, validate=Length(1,250))
 
 
 class DatasetRelatedChart(Schema):
@@ -169,3 +171,4 @@ class ImportV1DatasetSchema(Schema):
     version = fields.String(required=True)
     database_uuid = fields.UUID(required=True)
     data = fields.URL()
+    label = fields.String(allow_none=True)
