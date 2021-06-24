@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import json
-import info
+import logging
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, Hashable, List, Optional, Type, Union
