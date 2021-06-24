@@ -168,6 +168,11 @@ class BaseDatasource(
     def schema(self) -> Optional[str]:
         """String representing the schema of the Datasource (if it applies)"""
         return None
+    
+    @property
+    def label(self) -> Optional[str]:
+        """String representing the frontend label of the Datasource"""
+        return None
 
     @property
     def filterable_column_names(self) -> List[str]:
@@ -207,6 +212,7 @@ class BaseDatasource(
             "uid": self.uid,
             "schema": self.schema,
             "name": self.name,
+            "label": self.label,
             "type": self.type,
             "connection": self.connection,
             "creator": str(self.created_by),
@@ -256,6 +262,7 @@ class BaseDatasource(
             "table_name": self.datasource_name,
             "type": self.type,
             "schema": self.schema,
+            "label": self.label,
             "offset": self.offset,
             "cache_timeout": self.cache_timeout,
             "params": self.params,
