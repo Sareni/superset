@@ -87,23 +87,24 @@ export function useListViewResource<D extends object = any>(
         console.log(`/api/v1/${resource}/_info?q=${rison.encode({
           keys: ['permissions'],
         })}`);
-        updateState({
-          permissions: infoJson.permissions,
-        });
-
-        if (resource === 'dataset') {
+        if (resource !== 'dataset') {
+          updateState({
+            permissions: infoJson.permissions,
+          });
+        } else {
           SupersetClient.get({
             endpoint: `/api/v1/database/_info?q=${rison.encode({
               keys: ['permissions'],
             })}`,
           }).then(
-            ({ json: infoJson = {} }) => {
-              console.log('[YYY]:', infoJson.permissions);
-              console.log(`/api/v1/${resource}/_info?q=${rison.encode({
-                keys: ['permissions'],
-              })}`);
+            ({ json: infoJson2 = {} }) => {
               updateState({
-                permissions: infoJson.permissions,
+                permissions: [
+                  ...infoJson.permissions,
+                  ...infoJson2.permissions.map((p: String) => {
+                    return `${p}_db`;
+                  })
+                ],
               });
             },
             createErrorHandler(errMsg =>
