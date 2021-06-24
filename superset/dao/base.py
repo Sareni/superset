@@ -15,7 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Any, Dict, List, Optional, Type
-import logging
 
 from flask_appbuilder.models.filters import BaseFilter
 from flask_appbuilder.models.sqla import Model
