@@ -119,8 +119,6 @@ class BaseDAO:
         :raises: DAOCreateFailedError
         """
         for key, value in properties.items():
-            logging.debug('[XXX]')
-            logging.debug(key + ': ' + value)
             setattr(model, key, value)
         try:
             db.session.merge(model)
