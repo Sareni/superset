@@ -383,14 +383,14 @@ class DatasetRestApi(BaseSupersetModelRestApi):
             )
             return self.response_422(message=str(ex))
 
-    @expose("/", methods=["GET"])
-    @protect()
-    @safe
-    @statsd_metrics
-    def get(self, **kwargs: Any) -> Response:
-      logging.debug('XXXXXXXXX')
-      logging.debug(super().get())
-      return Response(message="Hello")
+    #@expose("/", methods=["GET"])
+    #@protect()
+    #@safe
+    #@statsd_metrics
+    #def get(self, **kwargs: Any) -> Response:
+    #  logging.debug('XXXXXXXXX')
+    #  logging.debug(super().get())
+    #  return Response(message="Hello")
 
     @expose("/export/", methods=["GET"])
     @protect()

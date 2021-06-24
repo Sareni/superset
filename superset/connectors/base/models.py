@@ -169,10 +169,10 @@ class BaseDatasource(
         """String representing the schema of the Datasource (if it applies)"""
         return None
     
-    #@property
-    #def label(self) -> Optional[str]:
-    #    """String representing the frontend label of the Datasource"""
-    #    return None
+    @property
+    def label(self) -> Optional[str]:
+        """String representing the frontend label of the Datasource"""
+        return None
 
     @property
     def filterable_column_names(self) -> List[str]:
@@ -212,7 +212,7 @@ class BaseDatasource(
             "uid": self.uid,
             "schema": self.schema,
             "name": self.name,
-            #"label": self.label,
+            "label": self.label,
             "type": self.type,
             "connection": self.connection,
             "creator": str(self.created_by),
@@ -226,6 +226,9 @@ class BaseDatasource(
     def data(self) -> Dict[str, Any]:
         """Data representation of the datasource sent to the frontend"""
         order_by_choices = []
+
+        logging.debug('[XXX]')
+        logging.debug(self.label)
 
         # self.column_names return sorted column_names
         for column_name in self.column_names:
@@ -259,7 +262,7 @@ class BaseDatasource(
             "table_name": self.datasource_name,
             "type": self.type,
             "schema": self.schema,
-            #"label": self.label,
+            "label": self.label,
             "offset": self.offset,
             "cache_timeout": self.cache_timeout,
             "params": self.params,
