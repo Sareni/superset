@@ -110,7 +110,7 @@ class BaseDatasource(
     schema_perm = Column(String(1000))
 
     sql: Optional[str] = None
-    label: Optional[str] = None
+    custom_label: Optional[str] = None
     owners: List[User]
     update_from_object_fields: List[str]
 
@@ -213,7 +213,7 @@ class BaseDatasource(
             "uid": self.uid,
             "schema": self.schema,
             "name": self.name,
-            "label": self.label,
+            "custom_label": self.custom_label,
             "type": self.type,
             "connection": self.connection,
             "creator": str(self.created_by),
@@ -229,7 +229,7 @@ class BaseDatasource(
         order_by_choices = []
 
         logging.debug('[XXX]')
-        logging.debug(self.label)
+        logging.debug(self.custom_label)
 
         # self.column_names return sorted column_names
         for column_name in self.column_names:
@@ -263,7 +263,7 @@ class BaseDatasource(
             "table_name": self.datasource_name,
             "type": self.type,
             "schema": self.schema,
-            "label": self.label,
+            "custom_label": self.custom_label,
             "offset": self.offset,
             "cache_timeout": self.cache_timeout,
             "params": self.params,
