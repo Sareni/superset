@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import json
+import info
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, Hashable, List, Optional, Type, Union
@@ -219,6 +220,10 @@ class BaseDatasource(
     def data(self) -> Dict[str, Any]:
         """Data representation of the datasource sent to the frontend"""
         order_by_choices = []
+
+        logging.debug('[XXX]')
+        logging.debug(self.label)
+
         # self.column_names return sorted column_names
         for column_name in self.column_names:
             column_name = str(column_name or "")
