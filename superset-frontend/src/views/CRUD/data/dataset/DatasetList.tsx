@@ -240,7 +240,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           },
         }: any) => {
           console.log('XXX', datasetLabel);
-          const titleLink = <a href={exploreURL}>{datasetLabel || datasetTitle}</a>;
+          const titleLink = <a href={exploreURL}>{datasetLabel}</a>;
           try {
             const parsedExtra = JSON.parse(extra);
             return (
@@ -264,7 +264,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           }
         },
         Header: t('Name'),
-        accessor: 'table_name',
+        accessor: 'custom_label',
       },
       {
         Cell: ({
