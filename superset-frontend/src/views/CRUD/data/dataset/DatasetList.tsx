@@ -239,6 +239,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
             },
           },
         }: any) => {
+          console.log('XXX', datasetLabel);
           const titleLink = <a href={exploreURL}>{datasetLabel || datasetTitle}</a>;
           try {
             const parsedExtra = JSON.parse(extra);
