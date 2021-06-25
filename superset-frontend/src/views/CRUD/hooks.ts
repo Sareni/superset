@@ -77,6 +77,7 @@ export function useListViewResource<D extends object = any>(
 
   useEffect(() => {
     if (!infoEnable) return;
+    let isMounted = true;
     async function fetchThisData() {
       try {
         console.log('ZZZ: entering');
@@ -103,9 +104,12 @@ export function useListViewResource<D extends object = any>(
   
         console.log('ZZZ: perms2: ', permissions);
   
-        updateState({
-          permissions,
-        });
+        if (isMounted) {
+          console.log('UPDATED !!!!!!!!!!!!!!!!!!');
+          updateState({
+            permissions,
+          });
+        }
       } catch (e) {
         createErrorHandler(errMsg =>
           handleErrorMsg(
@@ -120,7 +124,7 @@ export function useListViewResource<D extends object = any>(
     }
 
     fetchThisData();
-    
+    return () => { isMounted = false };
     
     /*.then(
       ({ json: infoJson = {} }) => {
