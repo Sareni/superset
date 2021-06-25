@@ -145,7 +145,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "datasource_type",
         "url",
         "extra",
-        "label"
+        "custom_label"
     ]
     add_model_schema = DatasetPostSchema()
     edit_model_schema = DatasetPutSchema()
