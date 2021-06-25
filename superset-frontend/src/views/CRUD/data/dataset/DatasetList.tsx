@@ -96,6 +96,7 @@ type Dataset = {
   owners: Array<Owner>;
   schema: string;
   table_name: string;
+  custom_label: string;
 };
 
 interface DatasetListProps {
