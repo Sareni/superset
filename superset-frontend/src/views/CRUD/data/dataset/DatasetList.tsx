@@ -234,11 +234,12 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
             original: {
               extra,
               table_name: datasetTitle,
+              custom_label: datasetLabel,
               explore_url: exploreURL,
             },
           },
         }: any) => {
-          const titleLink = <a href={exploreURL}>{datasetTitle}</a>;
+          const titleLink = <a href={exploreURL}>{datasetLabel || datasetTitle}</a>;
           try {
             const parsedExtra = JSON.parse(extra);
             return (
@@ -460,7 +461,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       },
       {
         Header: t('Search'),
-        id: 'table_name',
+        id: 'custom_label', //table_name
         input: 'search',
         operator: FilterOperator.contains,
       },
