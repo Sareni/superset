@@ -111,6 +111,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "schema",
         "sql",
         "table_name",
+        "custom_label"
     ]
     list_select_columns = list_columns + ["changed_on", "changed_by_fk"]
     order_columns = [
@@ -167,6 +168,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns",
         "metrics",
         "extra",
+        "custom_label"
     ]
     openapi_spec_tag = "Datasets"
     related_field_filters = {
