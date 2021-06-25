@@ -192,6 +192,7 @@ class DashboardDatasetSchema(Schema):
     perm = fields.Str()
     edit_url = fields.Str()
     sql = fields.Str()
+    custom_label = fields.Str()
     select_star = fields.Str()
     main_dttm_col = fields.Str()
     health_check_message = fields.Str()

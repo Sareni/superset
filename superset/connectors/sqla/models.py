@@ -478,6 +478,7 @@ class SqlaTable(  # pylint: disable=too-many-public-methods,too-many-instance-at
     )
     schema = Column(String(255))
     sql = Column(Text)
+    custom_label = Column(String(255))
     is_sqllab_view = Column(Boolean, default=False)
     template_params = Column(Text)
     extra = Column(Text)
