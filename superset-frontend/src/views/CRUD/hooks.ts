@@ -75,13 +75,47 @@ export function useListViewResource<D extends object = any>(
     updateState({ bulkSelectEnabled: !state.bulkSelectEnabled });
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!infoEnable) return;
-    SupersetClient.get({
-      endpoint: `/api/v1/${resource}/_info?q=${rison.encode({
-        keys: ['permissions'],
-      })}`,
-    }).then(
+    try {
+      console.log('ZZZ: entering');
+      const resource_response = await SupersetClient.get({
+        endpoint: `/api/v1/${resource}/_info?q=${rison.encode({
+          keys: ['permissions'],
+        })}`,
+      });
+      let infoJson  = resource_response.json || {};
+      let permissions = infoJson.permissions || [];
+      console.log('ZZZ: perms: ', permissions);
+
+      if (resource === 'dataset') {
+        const database_response = await SupersetClient.get({
+          endpoint: `/api/v1/database/_info?q=${rison.encode({
+            keys: ['permissions'],
+          })}`,
+        });
+        infoJson = database_response.json || {};
+        permissions = permissions.concat(infoJson.permissions || []);
+      }
+
+      console.log('ZZZ: perms2: ', permissions);
+
+      updateState({
+        permissions,
+      });
+    } catch (e) {
+      createErrorHandler(errMsg =>
+        handleErrorMsg(
+          t(
+            'An error occurred while fetching %s info: %s',
+            resourceLabel,
+            errMsg,
+          ),
+        ),
+      )(e);
+    }
+    
+    /*.then(
       ({ json: infoJson = {} }) => {
         console.log('[YYY]:', infoJson.permissions);
         console.log(`/api/v1/${resource}/_info?q=${rison.encode({
@@ -90,7 +124,7 @@ export function useListViewResource<D extends object = any>(
         updateState({
           permissions: infoJson.permissions,
         });
-        /* if (resource !== 'dataset') {
+        if (resource !== 'dataset') {
           updateState({
             permissions: infoJson.permissions,
           });
@@ -119,7 +153,7 @@ export function useListViewResource<D extends object = any>(
               ),
             ),
           );
-        } */
+        } 
       },
       createErrorHandler(errMsg =>
         handleErrorMsg(
@@ -130,7 +164,7 @@ export function useListViewResource<D extends object = any>(
           ),
         ),
       ),
-    );
+    );*/
     
   }, []);
 
