@@ -159,6 +159,8 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   const canExport = hasPerm('can_read');
   const canSeeAllMenuButtons = hasPerm('can_write_db');
 
+  console.log('TEST-------------');
+
   const initialSort = [{ id: 'changed_on_delta_humanized', desc: true }];
 
   const openDatasetEditModal = useCallback(
