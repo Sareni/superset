@@ -269,7 +269,7 @@ function ListView<T extends object = any>({
     renderCard: Boolean(renderCard),
     defaultViewMode,
   });
-  console.log('ListView - Columns', columns);
+
   const filterable = Boolean(filters.length);
   if (filterable) {
     const columnAccessors = columns.reduce(
