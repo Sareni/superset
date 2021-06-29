@@ -91,7 +91,7 @@ export default function QueryAndSaveBtns({
         paddingBottom: 0,
         paddingLeft: theme.gridUnit * 4,
         '& button': {
-          width: 95,
+          width: 100,
         },
       }}
     >
@@ -108,7 +108,6 @@ export default function QueryAndSaveBtns({
         >
           <i className="fa fa-plus-circle" /> {t('Save')}
         </Button>
-        <a className='ant-btn superset-button css-l1m2to-button' href={'/chart/list'}><i className="fa fa-share" />{'Charts'}</a>
       </ButtonGroup>
       {errorMessage && (
         <span>

@@ -161,7 +161,7 @@ export function Menu({
 
   navbarRight.user_logout_url = 'http://test.zenpa.at/api/logout';
   navbarRight.user_login_url = 'http://test.zenpa.at';
-  brand.path = 'http://test.zenpa.at';
+  brand.path = 'http://test.zenpa.at/dashboard';
 
   return (
     <StyledHeader className="top" id="main-menu">
