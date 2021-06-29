@@ -78,9 +78,8 @@ export function useListViewResource<D extends object = any>(
   useEffect(() => {
     if (!infoEnable) return;
     let isMounted = true;
-    async function fetchThisData() {
+    async function fetchResourceData() {
       try {
-        console.log('ZZZ: entering');
         const resource_response = await SupersetClient.get({
           endpoint: `/api/v1/${resource}/_info?q=${rison.encode({
             keys: ['permissions'],
@@ -88,7 +87,6 @@ export function useListViewResource<D extends object = any>(
         });
         let infoJson  = resource_response.json || {};
         let permissions = infoJson.permissions || [];
-        console.log('ZZZ: perms: ', permissions);
   
         if (resource === 'dataset') {
           const database_response = await SupersetClient.get({
@@ -96,16 +94,14 @@ export function useListViewResource<D extends object = any>(
               keys: ['permissions'],
             })}`,
           });
+          console.log(database_response);
           infoJson = database_response.json || {};
           permissions = permissions.concat((infoJson.permissions || []).map((p: String) => {
             return `${p}_db`;
           }));
         }
   
-        console.log('ZZZ: perms2: ', permissions);
-  
         if (isMounted) {
-          console.log('UPDATED !!!!!!!!!!!!!!!!!!');
           updateState({
             permissions,
           });
@@ -123,60 +119,8 @@ export function useListViewResource<D extends object = any>(
       }
     }
 
-    fetchThisData();
+    fetchResourceData();
     return () => { isMounted = false };
-    
-    /*.then(
-      ({ json: infoJson = {} }) => {
-        console.log('[YYY]:', infoJson.permissions);
-        console.log(`/api/v1/${resource}/_info?q=${rison.encode({
-          keys: ['permissions'],
-        })}`);
-        updateState({
-          permissions: infoJson.permissions,
-        });
-        if (resource !== 'dataset') {
-          updateState({
-            permissions: infoJson.permissions,
-          });
-        } else {
-          SupersetClient.get({
-            endpoint: `/api/v1/database/_info?q=${rison.encode({
-              keys: ['permissions'],
-            })}`,
-          }).then(
-            ({ json: infoJson2 = {} }) => {
-              updateState({
-                permissions: [
-                  ...infoJson.permissions,
-                  ...infoJson2.permissions.map((p: String) => {
-                    return `${p}_db`;
-                  })
-                ],
-              });
-            },
-            createErrorHandler(errMsg =>
-              handleErrorMsg(
-                t(
-                  'An error occurred while fetching database info: %s',
-                  errMsg,
-                ),
-              ),
-            ),
-          );
-        } 
-      },
-      createErrorHandler(errMsg =>
-        handleErrorMsg(
-          t(
-            'An error occurred while fetching %s info: %s',
-            resourceLabel,
-            errMsg,
-          ),
-        ),
-      ),
-    );*/
-    
   }, []);
 
   function hasPerm(perm: string) {

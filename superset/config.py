@@ -214,8 +214,8 @@ PROXY_FIX_CONFIG = {"x_for": 1, "x_proto": 1, "x_host": 1, "x_port": 1, "x_prefi
 APP_NAME = "Superset"
 
 # Uncomment to setup an App icon
-APP_ICON = "/static/assets/images/superset-logo-horiz.png"
-APP_ICON_WIDTH = 126
+APP_ICON = "/static/assets/images/ds2g.png" #superset-logo-horiz.png
+APP_ICON_WIDTH = 107
 
 # Uncomment to specify where clicking the logo would take the user
 # e.g. setting it to '/' would take the user to '/superset/welcome/'

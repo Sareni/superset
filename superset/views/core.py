@@ -727,7 +727,8 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
             datasource_id = None
             # fallback unkonw datasource to table type
             datasource_type = SqlaTable.type
-
+        logging.debug('XXXX ------------')
+        logging.debug(datasource_id)
         datasource: Optional[BaseDatasource] = None
         if datasource_id is not None:
             try:
@@ -808,7 +809,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
             datasource_data = datasource.data if datasource else dummy_datasource_data
         except (SupersetException, SQLAlchemyError):
             datasource_data = dummy_datasource_data
-
+        logging.debug('1-----------')
         bootstrap_data = {
             "can_add": slice_add_perm,
             "can_download": slice_download_perm,
@@ -1872,6 +1873,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
             edit_mode=edit_mode,
         )
 
+        logging.debug('2-----------')
         bootstrap_data = {
             "user": bootstrap_user_data(g.user, include_perms=True),
             "common": common_bootstrap_payload(),
@@ -2887,6 +2889,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
             except json.JSONDecodeError:
                 pass
 
+        logging.debug('3-----------')
         payload["user"] = bootstrap_user_data(g.user)
         bootstrap_data = json.dumps(
             payload, default=utils.pessimistic_json_iso_dttm_ser

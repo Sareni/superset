@@ -139,7 +139,8 @@ function DashboardCard({
     <CardStyles
       onClick={() => {
         if (!bulkSelectEnabled) {
-          window.location.href = dashboard.url;
+          //window.location.href = dashboard.url;
+          window.open(dashboard.url, '_blank');
         }
       }}
     >

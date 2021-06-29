@@ -103,7 +103,8 @@ export default function EmptyState({ tableName, tab }: EmptyStateProps) {
               <Button
                 buttonStyle="primary"
                 onClick={() => {
-                  window.location = mineRedirects[tableName];
+                  //window.location = mineRedirects[tableName];
+                  window.open(mineRedirects[tableName], '_blank');
                 }}
               >
                 <i className="fa fa-plus" />
@@ -135,7 +136,8 @@ export default function EmptyState({ tableName, tab }: EmptyStateProps) {
         <Button
           buttonStyle="primary"
           onClick={() => {
-            window.location = favRedirects[tableName];
+            // window.location = favRedirects[tableName];
+            window.open(favRedirects[tableName], '_blank');
           }}
         >
           See all{' '}

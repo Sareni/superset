@@ -68,11 +68,13 @@ const MenuItem = styled(Menu.Item)`
       background: ${({ theme }) => theme.colors.grayscale.light2};
     }
   }
+`;
 
-  &.ant-menu-item-selected {
+/*
+ &.ant-menu-item-selected {
     color: unset;
   }
-`;
+  */
 
 const PopoverDropdown = (props: PopoverDropdownProps) => {
   const {

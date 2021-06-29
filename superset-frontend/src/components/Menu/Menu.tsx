@@ -21,13 +21,13 @@ import { t, styled } from '@superset-ui/core';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import NavDropdown from 'src/components/NavDropdown';
 import { Menu as DropdownMenu } from 'src/common/components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MenuObject, {
   MenuObjectProps,
   MenuObjectChildProps,
 } from './MenuObject';
 import LanguagePicker, { Languages } from './LanguagePicker';
-import NewMenu from './NewMenu';
+//import NewMenu from './NewMenu';
 
 interface BrandProps {
   path: string;
@@ -102,7 +102,7 @@ const StyledHeader = styled.header`
   }
 
   .navbar-inverse .navbar-nav li a {
-    color: ${({ theme }) => theme.colors.grayscale.dark1};
+    color: ${'#FFFFFF' /*({ theme }) => theme.colors.grayscale.dark1*/};
     border-bottom: none;
     transition: background-color ${({ theme }) => theme.transitionTiming}s;
     &:after {
@@ -159,9 +159,13 @@ export function Menu({
 }: MenuProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  navbarRight.user_logout_url = 'http://test.zenpa.at/api/logout';
+  navbarRight.user_login_url = 'http://test.zenpa.at';
+  brand.path = 'http://test.zenpa.at';
+
   return (
     <StyledHeader className="top" id="main-menu">
-      <Navbar inverse fluid staticTop role="navigation">
+      <Navbar inverse fluid staticTop role="navigation" style={{ backgroundColor: '#607d8b'}}>
         <Navbar.Header>
           <Navbar.Brand>
             <a className="navbar-brand" href={brand.path}>
@@ -190,7 +194,7 @@ export function Menu({
           })}
         </Nav>
         <Nav className="navbar-right">
-          {!navbarRight.user_is_anonymous && <NewMenu />}
+          {!navbarRight.user_is_anonymous /*&& <NewMenu />*/}
           <NavDropdown
             id="settings-dropdown"
             title={t('Settings')}
@@ -226,34 +230,9 @@ export function Menu({
               {!navbarRight.user_is_anonymous && [
                 <DropdownMenu.Divider key="user-divider" />,
                 <DropdownMenu.ItemGroup key="user-section" title={t('User')}>
-                  {navbarRight.user_profile_url && (
-                    <DropdownMenu.Item key="profile">
-                      <a href={navbarRight.user_profile_url}>{t('Profile')}</a>
-                    </DropdownMenu.Item>
-                  )}
-                  <DropdownMenu.Item key="info">
-                    <a href={navbarRight.user_info_url}>{t('Info')}</a>
-                  </DropdownMenu.Item>
                   <DropdownMenu.Item key="logout">
                     <a href={navbarRight.user_logout_url}>{t('Logout')}</a>
                   </DropdownMenu.Item>
-                </DropdownMenu.ItemGroup>,
-              ]}
-              {(navbarRight.version_string || navbarRight.version_sha) && [
-                <DropdownMenu.Divider key="version-info-divider" />,
-                <DropdownMenu.ItemGroup key="about-section" title={t('About')}>
-                  <div className="about-section">
-                    {navbarRight.version_string && (
-                      <li className="version-info">
-                        <span>Version: {navbarRight.version_string}</span>
-                      </li>
-                    )}
-                    {navbarRight.version_sha && (
-                      <li className="version-info">
-                        <span>SHA: {navbarRight.version_sha}</span>
-                      </li>
-                    )}
-                  </div>
                 </DropdownMenu.ItemGroup>,
               ]}
             </DropdownMenu>
@@ -298,6 +277,13 @@ export function Menu({
 
 // transform the menu data to reorganize components
 export default function MenuWrapper({ data, ...rest }: MenuProps) {
+  try {
+    if (useLocation().pathname === '/superset/welcome/') {
+      return null;
+    }
+  } catch (e) {};
+  
+
   const newMenuData = {
     ...data,
   };

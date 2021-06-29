@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- import { t } from '@superset-ui/core';
 import React, { ReactNode } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
@@ -24,10 +23,6 @@ import cx from 'classnames';
 import { Nav, Navbar } from 'react-bootstrap';
 import Button, { OnClickHandler } from 'src/components/Button';
 
-import MenuObject, {
-  MenuObjectProps,
-  MenuObjectChildProps,
-} from './MenuObject';
 
 const StyledHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
@@ -146,73 +141,6 @@ export interface SubMenuProps {
   usesRouter?: boolean;
 }
 
-const subMenuChildProps: MenuObjectChildProps[] = [{
-    label: t('Home'),
-    name: 'Home',
-    icon: '',
-    index: 102,
-    url: '/superset/welcome',
-    isFrontendRoute: true,
-},{
-  label: t('Charts'),
-  name: 'Charts',
-  icon: '',
-  index: 103,
-  url: '/chart/list',
-  isFrontendRoute: true,
-},{
-  label: t('Dashboards'),
-  name: 'Dashboards',
-  icon: '',
-  index: 104,
-  url: '/dashboard/list',
-  isFrontendRoute: true,
-},{
-  label: t('Datasets'),
-  name: 'Datasets',
-  icon: '',
-  index: 105,
-  url: '/tablemodelview/list',
-  isFrontendRoute: true,
-}];
-
-const createCustomNav = (name?: string | ReactNode) => {
-  if (name && typeof name === 'string') {
-    const menu: MenuObjectProps[] = [];
-    const prop: MenuObjectProps = {
-      childs: subMenuChildProps.filter(p => p.name !== name),
-      isHeader: false,
-      label: name,
-      name,
-      icon: '',
-      index: 100,
-      url: '',
-      isFrontendRoute: true,
-    };
-  
-    menu.push(prop);
-    
-    return menu.map((item, index) => {
-      const props = {
-        ...item,
-        isFrontendRoute: true,
-        childs: item.childs?.map(c => {
-          if (typeof c === 'string') {
-            return c;
-          }
-
-          return {
-            ...c,
-            isFrontendRoute: true,
-          };
-        }),
-      };
-      return <MenuObject {...props} key={item.label} index={index + 1} />;
-    });
-  }
-  return name;
-}
-
 const SubMenu: React.FunctionComponent<SubMenuProps> = props => {
   let hasHistory = true;
 
@@ -228,7 +156,7 @@ const SubMenu: React.FunctionComponent<SubMenuProps> = props => {
       <Navbar inverse fluid role="navigation">
         <Navbar.Header>
           <Navbar.Brand>
-            { createCustomNav(props.name) }
+            {props.name && <div className="header">{props.name}</div>}
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>

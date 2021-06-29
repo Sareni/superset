@@ -27,7 +27,7 @@ import {
 } from 'src/utils/localStorageHelpers';
 import withToasts from 'src/messageToasts/enhancers/withToasts';
 import Loading from 'src/components/Loading';
-import SubMenu from 'src/components/Menu/SubMenu';
+//import SubMenu from 'src/components/Menu/SubMenu';
 import {
   createErrorHandler,
   getRecentAcitivtyObjs,
@@ -95,7 +95,7 @@ const WelcomeContainer = styled.div`
 
 //${({ theme }) => theme.gridUnit * -4 - 1}px
 const WelcomeNav = styled.div`
-  height: 50px;
+  height: 0px;
   background-color: white;
   margin-top: 0; 
   .navbar-brand {
@@ -206,7 +206,6 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
   return (
     <WelcomeContainer>
       <WelcomeNav className={'custom-nav-no-border'}>
-        <SubMenu name={'Home'} />
         {isFeatureEnabled(FeatureFlag.THUMBNAILS) ? (
           <div className="switch">
             <Switch checked={checked} onChange={handleToggle} />
@@ -214,7 +213,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
           </div>
         ) : null}
       </WelcomeNav>
-      <Collapse defaultActiveKey={['1', '2', /*'3', */'4']} ghost bigger>
+      <Collapse defaultActiveKey={['1', '2', '3']} ghost bigger>
         <Collapse.Panel header={t('Recents')} key="1">
           {activityData && (activityData.Viewed || activityData.Examples) ? (
             <ActivityTable
@@ -238,19 +237,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
             />
           )}
         </Collapse.Panel>
-        <Collapse.Panel header={t('Saved queries')} key="3">
-          {!queryData ? (
-            <Loading position="inline" />
-          ) : (
-            <SavedQueries
-              showThumbnails={checked}
-              user={user}
-              mine={queryData}
-              featureFlag={isFeatureEnabled(FeatureFlag.THUMBNAILS)}
-            />
-          )}
-        </Collapse.Panel>
-        <Collapse.Panel header={t('Charts')} key="4">
+        <Collapse.Panel header={t('Charts')} key="3">
           {!chartData ? (
             <Loading position="inline" />
           ) : (

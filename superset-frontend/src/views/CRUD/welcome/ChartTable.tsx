@@ -156,7 +156,8 @@ function ChartTable({
             ),
             buttonStyle: 'tertiary',
             onClick: () => {
-              window.location.assign('/chart/add');
+              //window.location.assign('/chart/add');
+              window.open('/chart/add', '_blank');
             },
           },
           {
@@ -167,7 +168,8 @@ function ChartTable({
                 chartFilter === 'Favorite'
                   ? '/chart/list/?filters=(favorite:!t)'
                   : '/chart/list/';
-              history.push(target);
+              //history.push(target);
+              window.open(target, '_blank');
             },
           },
         ]}

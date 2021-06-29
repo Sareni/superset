@@ -286,6 +286,30 @@ class BaseSupersetView(BaseView):
 
 def menu_data() -> Dict[str, Any]:
     menu = appbuilder.menu.get_data()
+    #TODO dict with more names ('Data' etc)
+    menu_exclude_list = [
+        'Databases',
+        'Upload Excel',
+        '-'
+    ] 
+
+    
+    for idx, menu_entry in enumerate(menu):
+        new_childs = []
+        change_childs = False
+        if menu_entry['name'] == 'Data':
+            change_childs = True
+            for menu_child in menu_entry['childs']:
+                if type(menu_child) == str and menu_child not in menu_exclude_list:
+                    new_childs.append(menu_child)
+                if type(menu_child) == dict and menu_child['name'] not in menu_exclude_list:
+                    new_childs.append(menu_child)
+        if change_childs:
+            menu[idx]['childs'] = new_childs
+            
+
+    logging.debug('XXX')
+    logging.debug(menu)
 
     languages = {}
     for lang in appbuilder.languages:

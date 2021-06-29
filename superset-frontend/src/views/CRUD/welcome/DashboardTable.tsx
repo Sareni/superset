@@ -160,7 +160,8 @@ function DashboardTable({
             ),
             buttonStyle: 'tertiary',
             onClick: () => {
-              window.location.assign('/dashboard/new');
+              // window.location.assign('/dashboard/new');
+              window.open('/dashboard/new', '_blank');
             },
           },
           {
@@ -171,7 +172,8 @@ function DashboardTable({
                 dashboardFilter === 'Favorite'
                   ? '/dashboard/list/?filters=(favorite:!t)'
                   : '/dashboard/list/';
-              history.push(target);
+              //history.push(target);
+              window.open(target, '_blank');
             },
           },
         ]}

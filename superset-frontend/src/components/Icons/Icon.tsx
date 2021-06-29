@@ -47,15 +47,19 @@ export const Icon = (props: IconProps) => {
   const name = fileName.replace('_', '-');
 
   useEffect(() => {
+    let isMounted = true;
     async function importIcon(): Promise<void> {
       ImportedSVG.current = (
         await import(
           `!!@svgr/webpack?-svgo,+titleProp,+ref!images/icons/${fileName}.svg`
         )
       ).default;
-      setLoaded(true);
+      if (isMounted) {
+        setLoaded(true);
+      }
     }
     importIcon();
+    return () => { isMounted = false };
   }, [fileName, ImportedSVG]);
 
   return (

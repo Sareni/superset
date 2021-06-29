@@ -72,25 +72,40 @@ class SliceModelView(
 
         # only if gamma
         is_gamma = False
-
+        logging.debug('-------------------------')
         for role in g.user.roles:
             if str(role) == 'Gamma':
                 is_gamma = True
+            logging.debug(role.permissions)
             for perm in role.permissions:
                 if str(perm).startswith('datasource access on ['):
                     #'datasource access on [DB].[DATASOURCE](id:ID)')
                     data_search = re.search('datasource access on \[([^\]]+)\]\.\[([^\]]+)\]\(id:([^\)]+)\)', str(perm))
                     if data_search:
                         allowed_datasources.append({"connection": data_search.group(1), "name": data_search.group(2), "id": data_search.group(3)})
-
+        logging.debug(allowed_datasources)
         for d in ConnectorRegistry.get_all_datasources(db.session):
             if (is_gamma):
                 for a in allowed_datasources:
-                    if d.short_data.get("name") == a.get("name") and d.short_data.get("connection") == a.get("connection") and str(d.short_data.get("id")) == str(a.get("id")):
-                        datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
-            else:
-                 datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+                    table_name = d.short_data.get("name").split('.')[-1]
+                    logging.debug('d-name: ' + table_name + ' - a-name: ' + a.get("name"))
+                    logging.debug('d-connection: ' + d.short_data.get("connection") + ' - a-nameconnection: ' + a.get("connection"))
+                    logging.debug('d-id: ' + str(d.short_data.get("id")) + ' - a-id: ' + str(a.get("id")))
 
+                    logging.debug('Label: ' + d.custom_label)
+
+                    if table_name == a.get("name") and d.short_data.get("connection") == a.get("connection") and str(d.short_data.get("id")) == str(a.get("id")):
+                        if hasattr(d, 'custom_label'):
+                            datasources.append({"value": str(d.id) + "__" + d.type, "label": d.custom_label})
+                        else:
+                            datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+            else:
+                if hasattr(d, 'custom_label'):
+                    datasources.append({"value": str(d.id) + "__" + d.type, "label": d.custom_label})
+                else:
+                    datasources.append({"value": str(d.id) + "__" + d.type, "label": repr(d)})
+        
+        logging.debug(datasources)
         payload = {
             "datasources": sorted(datasources, key=lambda d: d["label"]),
             "common": common_bootstrap_payload(),
