@@ -29,6 +29,7 @@ const NavDropdown = styled(ReactBootstrapNavDropdown)`
   }
   &.dropdown.open > a.dropdown-toggle {
     background: ${({ theme }) => theme.colors.primary.light4};
+    color: #607D8B;
   }
 
   :after {
