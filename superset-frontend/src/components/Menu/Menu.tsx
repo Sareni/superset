@@ -134,6 +134,10 @@ const StyledHeader = styled.header`
     }
   }
 
+  .navbar-inverse .navbar-nav ul.dropdown-menu li a {
+    color: #000000;
+  }
+
   .navbar-right {
     display: flex;
     align-items: center;
