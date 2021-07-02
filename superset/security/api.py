@@ -123,6 +123,10 @@ class SecurityRestApi(BaseApi):
         
         #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
 
+        pns.append('can write on Dataset')
+        pns.append('can read on Dataset')
+        pns.append('menu access on Dataset')
+
 
         role = sm.add_role(role_name)
         pvms = sm.get_session.query(PermissionView).all()
