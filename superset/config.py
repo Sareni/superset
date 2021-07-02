@@ -36,7 +36,7 @@ from cachelib.base import BaseCache
 from celery.schedules import crontab
 from dateutil import tz
 from flask import Blueprint
-from flask_appbuilder.security.manager import AUTH_DB
+from flask_appbuilder.security.manager import AUTH_OAUTH
 from pandas.io.parsers import STR_NA_VALUES
 
 from superset.jinja_context import (  # pylint: disable=unused-import
@@ -48,6 +48,8 @@ from superset.utils.core import is_test
 from superset.utils.encrypt import SQLAlchemyUtilsAdapter
 from superset.utils.log import DBEventLogger
 from superset.utils.logging_configurator import DefaultLoggingConfigurator
+
+from custom_sso_security_manager import CustomSsoSecurityManager
 
 logger = logging.getLogger(__name__)
 
@@ -151,7 +153,7 @@ SUPERSET_DASHBOARD_PERIODICAL_REFRESH_LIMIT = 0
 SUPERSET_DASHBOARD_PERIODICAL_REFRESH_WARNING_MESSAGE = None
 
 SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = 65535
-CUSTOM_SECURITY_MANAGER = None
+CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 # ---------------------------------------------------------
 
@@ -254,7 +256,27 @@ DRUID_METADATA_LINKS_ENABLED = True
 # AUTH_DB : Is for database (username/password)
 # AUTH_LDAP : Is for LDAP
 # AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
-AUTH_TYPE = AUTH_DB
+AUTH_TYPE = AUTH_OAUTH
+
+OAUTH_PROVIDERS = [
+    {   
+        'name':'ownauth',
+        'token_key':'access_token', # Name of the token in the response of access_token_url
+        'icon':'fa-google',   # Icon for the provider
+        'remote_app': {
+            'client_id':'5pMxtEdbs0hUHufMBm2QyLcJCBfT86z3',  # Client Id (Identify Superset application)
+            'client_secret':'jUi8_Fr2xvHalPV1giEXBiuTJX6GuUqpDLaQxlSel66wNyXxihABFQ3w27FcIHkk', # Secret for this Client Id (Identify Superset application)
+            'client_kwargs':{
+                'scope': 'openid profile email',        # Scope for the Authorization
+                                                                                                },
+            'access_token_method':'POST',    # HTTP Method to call access_token_url
+            'base_url':'http://test.zenpa.at',
+            'access_token_url':'http://test.zenpa.at/api/oauth2/token',
+            'authorize_url':'http://test.zenpa.at/api/oauth2/authorize',
+            'logout_redirect_uri': 'http://test.zenpa.at/api/logout'
+        },
+    }
+]
 
 # Uncomment to setup Full admin role name
 # AUTH_ROLE_ADMIN = 'Admin'
