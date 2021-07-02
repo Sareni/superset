@@ -24,7 +24,7 @@ import {
   useFavoriteStatus,
 } from 'src/views/CRUD/hooks';
 import withToasts from 'src/messageToasts/enhancers/withToasts';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import PropertiesModal from 'src/explore/components/PropertiesModal';
 import { User } from 'src/types/bootstrapTypes';
 import ChartCard from 'src/views/CRUD/chart/ChartCard';
@@ -54,7 +54,7 @@ function ChartTable({
   mine,
   showThumbnails,
 }: ChartTableProps) {
-  const history = useHistory();
+//  const history = useHistory();
   const {
     state: { loading, resourceCollection: charts, bulkSelectEnabled },
     setResourceCollection: setCharts,

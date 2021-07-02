@@ -39,7 +39,7 @@ import { Switch } from 'src/common/components';
 
 import ActivityTable from './ActivityTable';
 import ChartTable from './ChartTable';
-import SavedQueries from './SavedQueries';
+//import SavedQueries from './SavedQueries';
 import DashboardTable from './DashboardTable';
 
 interface WelcomeProps {
