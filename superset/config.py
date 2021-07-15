@@ -270,10 +270,10 @@ OAUTH_PROVIDERS = [
                 'scope': 'openid profile email',        # Scope for the Authorization
                                                                                                 },
             'access_token_method':'POST',    # HTTP Method to call access_token_url
-            'base_url':'http://test.zenpa.at',
-            'access_token_url':'http://test.zenpa.at/api/oauth2/token',
-            'authorize_url':'http://test.zenpa.at/api/oauth2/authorize',
-            'logout_redirect_uri': 'http://test.zenpa.at/api/logout'
+            'base_url':'http://test.ds2g.io',
+            'access_token_url':'http://test.ds2g.io/api/oauth2/token',
+            'authorize_url':'http://test.ds2g.io/api/oauth2/authorize',
+            'logout_redirect_uri': 'http://test.ds2g.io/api/logout'
         },
     }
 ]
