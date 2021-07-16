@@ -17,6 +17,7 @@
 
 # Ignore everything
 *
+ownauth_config.py
 # DON'T ignore the .gitignore
 !.gitignore
 !superset_config.py

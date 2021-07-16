@@ -32,6 +32,8 @@ from datetime import date
 from distutils.util import strtobool
 from typing import Any, Callable, Dict, List, Optional, Type, TYPE_CHECKING, Union
 
+import ownauth_config as config
+
 from cachelib.base import BaseCache
 from celery.schedules import crontab
 from dateutil import tz
@@ -49,7 +51,7 @@ from superset.utils.encrypt import SQLAlchemyUtilsAdapter
 from superset.utils.log import DBEventLogger
 from superset.utils.logging_configurator import DefaultLoggingConfigurator
 
-from custom_sso_security_manager import CustomSsoSecurityManager
+from superset.custom_sso_security_manager import CustomSsoSecurityManager
 
 logger = logging.getLogger(__name__)
 
@@ -264,8 +266,8 @@ OAUTH_PROVIDERS = [
         'token_key':'access_token', # Name of the token in the response of access_token_url
         'icon':'fa-google',   # Icon for the provider
         'remote_app': {
-            'client_id':'5pMxtEdbs0hUHufMBm2QyLcJCBfT86z3',  # Client Id (Identify Superset application)
-            'client_secret':'jUi8_Fr2xvHalPV1giEXBiuTJX6GuUqpDLaQxlSel66wNyXxihABFQ3w27FcIHkk', # Secret for this Client Id (Identify Superset application)
+            'client_id':config.client_id,  # Client Id (Identify Superset application)
+            'client_secret':config.client_secret, # Secret for this Client Id (Identify Superset application)
             'client_kwargs':{
                 'scope': 'openid profile email',        # Scope for the Authorization
                                                                                                 },
