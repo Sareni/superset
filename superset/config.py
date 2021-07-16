@@ -32,7 +32,7 @@ from datetime import date
 from distutils.util import strtobool
 from typing import Any, Callable, Dict, List, Optional, Type, TYPE_CHECKING, Union
 
-import ownauth_config as config
+import superset.ownauth_config as config
 
 from cachelib.base import BaseCache
 from celery.schedules import crontab
