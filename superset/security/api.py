@@ -126,6 +126,7 @@ class SecurityRestApi(BaseApi):
         pns.append('can write on Dataset')
         pns.append('can read on Dataset')
         pns.append('menu access on Dataset')
+        pns.append('can save on Datasource')
 
 
         role = sm.add_role(role_name)
