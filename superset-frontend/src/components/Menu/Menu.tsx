@@ -163,9 +163,9 @@ export function Menu({
 }: MenuProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  navbarRight.user_logout_url = 'http://dataplatform.ds2g.io/api/logout';
-  navbarRight.user_login_url = 'http://dataplatform.ds2g.io';
-  brand.path = 'http://dataplatform.ds2g.io/dashboard';
+  navbarRight.user_logout_url = 'https://dataplatform.ds2g.io/api/logout';
+  navbarRight.user_login_url = 'https://dataplatform.ds2g.io';
+  brand.path = 'https://dataplatform.ds2g.io/dashboard';
 
   return (
     <StyledHeader className="top" id="main-menu">

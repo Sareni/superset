@@ -12,7 +12,7 @@ class CustomSsoAuthOAuthView(AuthOAuthView):
     @expose("/logout/")
     def logout(self, provider="ownauth", register=None):
         ret = super().logout()
-        return redirect('http://dataplatform.ds2g.io/api/logout?application=superset')
+        return redirect('https://dataplatform.ds2g.io/api/logout?application=superset')
 
 
 class CustomSsoSecurityManager(SupersetSecurityManager):
@@ -47,7 +47,7 @@ class CustomSsoSecurityManager(SupersetSecurityManager):
 
         if provider == 'ownauth':
 
-            resp = requests.get('http://dataplatform.ds2g.io/api/userinfo', headers={ 'Authorization': 'Bearer ' + self.oauth_tokengetter()[0]}).content
+            resp = requests.get('https://dataplatform.ds2g.io/api/userinfo', headers={ 'Authorization': 'Bearer ' + self.oauth_tokengetter()[0]}).content
             userinfo =  json.loads(resp.decode('utf-8'))
 
             logging.debug(userinfo)
