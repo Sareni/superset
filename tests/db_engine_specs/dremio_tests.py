@@ -14,24 +14,20 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-# isort:skip_file
-from datetime import datetime
-
-from tests.test_app import app
-from tests.base_tests import SupersetTestCase
-from superset.db_engine_specs.mysql import MySQLEngineSpec
-from superset.models.core import Database
+from superset.db_engine_specs.dremio import DremioEngineSpec
+from tests.db_engine_specs.base_tests import TestDbEngineSpec
 
 
-class TestDbEngineSpec(SupersetTestCase):
-    def sql_limit_regex(
-        self,
-        sql,
-        expected_sql,
-        engine_spec_class=MySQLEngineSpec,
-        limit=1000,
-        force=False,
-    ):
-        main = Database(database_name="test_database", sqlalchemy_uri="sqlite://")
-        limited = engine_spec_class.apply_limit_to_sql(sql, limit, main, force)
-        self.assertEqual(expected_sql, limited)
+class TestDremioDbEngineSpec(TestDbEngineSpec):
+    def test_convert_dttm(self):
+        dttm = self.get_dttm()
+
+        self.assertEqual(
+            DremioEngineSpec.convert_dttm("DATE", dttm),
+            "TO_DATE('2019-01-02', 'YYYY-MM-DD')",
+        )
+
+        self.assertEqual(
+            DremioEngineSpec.convert_dttm("TIMESTAMP", dttm),
+            "TO_TIMESTAMP('2019-01-02 03:04:05.678', 'YYYY-MM-DD HH24:MI:SS.FFF')",
+        )

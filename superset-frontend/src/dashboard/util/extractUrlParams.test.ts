@@ -16,15 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React from 'react';
-import { DataMask } from '@superset-ui/core';
-import { Filter } from '../../types';
+import extractUrlParams from './extractUrlParams';
 
-export interface FilterProps {
-  filter: Filter & {
-    dataMask?: DataMask;
-  };
-  icon?: React.ReactElement;
-  directPathToChild?: string[];
-  onFilterSelectionChange: (filter: Filter, dataMask: DataMask) => void;
-}
+const originalWindowLocation = window.location;
+
+describe('extractUrlParams', () => {
+  beforeAll(() => {
+    // @ts-ignore
+    delete window.location;
+    // @ts-ignore
+    window.location = { search: '?edit=true&abc=123' };
+  });
+
+  afterAll(() => {
+    window.location = originalWindowLocation;
+  });
+
+  it('returns all urlParams', () => {
+    expect(extractUrlParams('all')).toEqual({
+      edit: 'true',
+      abc: '123',
+    });
+  });
+
+  it('returns reserved urlParams', () => {
+    expect(extractUrlParams('reserved')).toEqual({
+      edit: 'true',
+    });
+  });
+
+  it('returns regular urlParams', () => {
+    expect(extractUrlParams('regular')).toEqual({
+      abc: '123',
+    });
+  });
+});
