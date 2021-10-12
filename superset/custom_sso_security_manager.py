@@ -52,7 +52,7 @@ class CustomSsoSecurityManager(SupersetSecurityManager):
 
             logging.debug(userinfo)
             return {
-                    'username' : userinfo['email'], #
+                    'username' : userinfo['username'], #
                             #'name' : userinfo['name'], #me['name']
                             #'email' : userinfo['email'], #me['email']
                             #'first_name': 'first_name', #me['given_name'],

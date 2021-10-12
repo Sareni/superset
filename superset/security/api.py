@@ -66,6 +66,31 @@ class SecurityRestApi(BaseApi):
     def custom_pvm_check(self, pvm: PermissionView, perm_name: str) -> bool:
         return str(pvm) == perm_name
 
+    
+    def create_role(role_name, datasourceIds, datasourceNames, isUser) -> None:
+      pns = []
+      for idx, id in enumerate(datasourceIds):
+        pns.append('datasource access on [Tracking].[' + datasourceNames[idx] + '](id:' + id + ')')
+
+      if isUser:
+        pns.append('can write on Dataset')
+        pns.append('can read on Dataset')
+        pns.append('menu access on Dataset')
+        pns.append('can save on Datasource')
+
+      role = sm.add_role(role_name)
+      pvms = sm.get_session.query(PermissionView).all()
+
+      role.permissions = []
+      for permission_view in pvms:
+        for perm_name in pns:
+          if self.custom_pvm_check(permission_view, perm_name):
+            role.permissions.append(permission_view)
+            break
+
+      sm.get_session.merge(role)
+      sm.get_session.commit()
+
 
     @expose("/create_ta_user/", methods=["POST"])
     @event_logger.log_this
@@ -94,60 +119,29 @@ class SecurityRestApi(BaseApi):
             500:
               $ref: '#/components/responses/500'
         """
-        data = request.json # json.loads(request.json)
-        role_name = data['username']
+        data = request.json
+        role_name = ''
 
-        special_global_source_dict = {
-          '0': 'demo_data'
-        }
+        # admin, user, sub
+        if data['type'] = 'admin':
+          role_name = 'Admin'
+        elif data['type'] = 'user':
+          role_name = data['key']
+        elif data['type'] = 'sub':
+          role_name = data['key'] + '_sub'
 
-        special_private_source_dict = {
-          '0': 'demo'
-        }
+        role = sm.find_role(role_name)
 
-
-        datasourceIds = data['datasourceIds'].split(',')
-
-        datasourceNames = data['datasourceNames'].split(',')
-        pns = []
-        for idx, id in enumerate(datasourceIds):
-          # special global (all user) source
-          if id[1] == '_':
-            pns.append('datasource access on [Tracking].[' + special_global_source_dict[id[0]] + '](id:' + id[2:] + ')')
-          # special private (single user) source
-          if id[1] == '-':
-            pns.append('datasource access on [Tracking].[' + data['username'] + '_' + special_private_source_dict[id[0]] + '](id:' + id[2:] + ')')
-          # default user source
-          else:
-            pns.append('datasource access on [Tracking].[' + datasourceNames[idx] + '](id:' + id + ')')
+        if role is None:
+          datasourceIds = data['datasourceIds'].split(',')
+          datasourceNames = data['datasourceNames'].split(',')
+          isUser = data['type'] = 'user'
+          createRole(role_name, datasourceIds, datasourceNames, isUser)
         
-        #perm_name = 'datasource access on [Tracking (MySQL)].[' + data['username'] + '](id:' + data['datasourceId'] + ')'
+        role_names = [role_name]
+        if role_name != 'Admin':
+          role_names.append('Gamma')
 
-        pns.append('can write on Dataset')
-        pns.append('can read on Dataset')
-        pns.append('menu access on Dataset')
-        pns.append('can save on Datasource')
-
-
-        role = sm.add_role(role_name)
-        pvms = sm.get_session.query(PermissionView).all()
-        #pvms = [p for p in pvms if p.permission and p.view_menu]
-
-        role.permissions = []
-        for permission_view in pvms:
-          for perm_name in pns:
-            if self.custom_pvm_check(permission_view, perm_name):
-              role.permissions.append(permission_view)
-              break
-
-
-        #role.permissions = [
-        #    permission_view for permission_view in pvms if self.custom_pvm_check(permission_view, perm_name)
-        #]
-        sm.get_session.merge(role)
-        sm.get_session.commit()
-
-        role_names = ['Gamma', role_name]
-        user = sm.add_user(data['username'], 'DS2G', "User", data['username'] + "@test.at", list(map(lambda rn:sm.find_role(rn), role_names)), password=data['password'])
+        user = sm.add_user(data['username'], 'DS2G', "User", data['email'], list(map(lambda rn:sm.find_role(rn), role_names)), password=data['password'])
         sm.get_session.commit()
         return self.response(200, id=user.id)
