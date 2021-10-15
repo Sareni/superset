@@ -136,7 +136,7 @@ class SecurityRestApi(BaseApi):
           datasourceIds = data['datasourceIds'].split(',')
           datasourceNames = data['datasourceNames'].split(',')
           isUser = data['type'] = 'user'
-          createRole(role_name, datasourceIds, datasourceNames, isUser)
+          create_role(role_name, datasourceIds, datasourceNames, isUser)
         
         role_names = [role_name]
         if role_name != 'Admin':
