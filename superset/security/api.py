@@ -183,6 +183,5 @@ class SecurityRestApi(BaseApi):
           except SQLAlchemyError as ex:  # pragma: no cover
             sm.get_session.rollback()
             raise DAODeleteFailedError(exception=ex)
-        return model
 
         return self.response(200)
