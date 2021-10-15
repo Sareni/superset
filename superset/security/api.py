@@ -125,10 +125,10 @@ class SecurityRestApi(BaseApi):
         # admin, user, sub
         if data['type'] == 'admin':
           role_name = 'Admin'
-        elif data['type'] = 'user':
-          role_name == data['key']
-        elif data['type'] = 'sub':
-          role_name == data['key'] + '_sub'
+        elif data['type'] == 'user':
+          role_name = data['key']
+        elif data['type'] == 'sub':
+          role_name = data['key'] + '_sub'
 
         role = sm.find_role(role_name)
 
