@@ -67,7 +67,7 @@ class SecurityRestApi(BaseApi):
         return str(pvm) == perm_name
 
     
-    def create_role(role_name, datasourceIds, datasourceNames, isUser) -> None:
+    def create_role(self, role_name, datasourceIds, datasourceNames, isUser) -> None:
       pns = []
       for idx, id in enumerate(datasourceIds):
         pns.append('datasource access on [Tracking].[' + datasourceNames[idx] + '](id:' + id + ')')
