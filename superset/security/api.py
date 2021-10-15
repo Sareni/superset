@@ -97,7 +97,7 @@ class SecurityRestApi(BaseApi):
     @protect()
     @safe
     @permission_name("read")
-    def test_user_creation(self) -> Response:
+    def ta_user_creation(self) -> Response:
         """
         Return the csrf token
         ---
@@ -145,3 +145,39 @@ class SecurityRestApi(BaseApi):
         user = sm.add_user(data['username'], 'DS2G', "User", data['email'], list(map(lambda rn:sm.find_role(rn), role_names)), password=data['password'])
         sm.get_session.commit()
         return self.response(200, id=user.id)
+
+@expose("/delete_ta_user/", methods=["POST"]) #DELETE
+    @event_logger.log_this
+    @protect()
+    @safe
+    @permission_name("read")
+    def ta_user_deletion(self) -> Response:
+        """
+        Return the csrf token
+        ---
+        get:
+          description: >-
+            Fetch the CSRF token
+          responses:
+            200:
+              description: Result contains the CSRF token
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                        result:
+                          type: string
+            401:
+              $ref: '#/components/responses/401'
+            500:
+              $ref: '#/components/responses/500'
+        """
+        data = request.json
+        user = sm.find_user(data['username'])
+
+        if user is not None:
+          user.delete()
+        #sm.get_session.commit()
+
+        return self.response(200)
