@@ -146,7 +146,7 @@ class SecurityRestApi(BaseApi):
         sm.get_session.commit()
         return self.response(200, id=user.id)
 
-@expose("/delete_ta_user/", methods=["POST"]) #DELETE
+    @expose("/delete_ta_user/", methods=["POST"]) #DELETE
     @event_logger.log_this
     @protect()
     @safe
