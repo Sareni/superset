@@ -177,7 +177,12 @@ class SecurityRestApi(BaseApi):
         user = sm.find_user(data['username'])
 
         if user is not None:
-          user.delete()
-        #sm.get_session.commit()
+          try:
+            db.session.delete(user)
+            db.session.commit()
+          except SQLAlchemyError as ex:  # pragma: no cover
+            db.session.rollback()
+            raise DAODeleteFailedError(exception=ex)
+        return model
 
         return self.response(200)
